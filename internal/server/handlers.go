@@ -293,7 +293,8 @@ func (s *Server) readUpload(w http.ResponseWriter, r *http.Request, maxMain int6
 	return u, true
 }
 
-func datePrefix(ms int64) string { return time.UnixMilli(ms).Format("2006/01/02") + "/" }
+// datePrefix 按年月分文件夹，例如 202610/，图片和文件放在一起。
+func datePrefix(ms int64) string { return time.UnixMilli(ms).Format("200601") + "/" }
 
 func (s *Server) handleCreateImage(w http.ResponseWriter, r *http.Request, room string) {
 	u, ok := s.readUpload(w, r, s.cfg.MaxImageBytes, fmt.Sprintf("图片超过 %d MB 上限", s.cfg.MaxImageBytes>>20))

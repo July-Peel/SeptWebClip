@@ -10,7 +10,7 @@ import (
 
 var ErrNotFound = errors.New("file not found")
 
-// Storage 以 key（形如 2026/10/21/abc.png）存取图片。图片只写不删。
+// Storage 以 key（形如 202610/abc.png）存取图片和文件。只写不删。
 type Storage interface {
 	Name() string
 	Put(ctx context.Context, key string, r io.Reader, size int64, contentType string) error
