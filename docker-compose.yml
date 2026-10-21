@@ -1,0 +1,40 @@
+# 在服务器上直接编译并启动：docker compose up -d --build
+# 所有配置都可以写在同目录的 .env 文件里（参考 .env.example），不写则使用这里的默认值。
+services:
+  septwebclip:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        GOPROXY: ${GOPROXY:-https://proxy.golang.org,direct}
+    image: septwebclip:local
+    container_name: septwebclip
+    restart: unless-stopped
+    ports:
+      # 只监听本机，由宿主机的 nginx 反向代理进来
+      - "${BIND_ADDR:-127.0.0.1}:${PORT:-8080}:8080"
+    environment:
+      TRUST_PROXY: ${TRUST_PROXY:-true}
+      CLIP_TTL: ${CLIP_TTL:-3d}
+      CLEANUP_INTERVAL: ${CLEANUP_INTERVAL:-10m}
+      VIEW_DEDUP: ${VIEW_DEDUP:-30m}
+      MAX_IMAGE_MB: ${MAX_IMAGE_MB:-20}
+      MAX_FILE_MB: ${MAX_FILE_MB:-50}
+      MAX_TEXT_KB: ${MAX_TEXT_KB:-1024}
+      MIN_CODE_LEN: ${MIN_CODE_LEN:-4}
+      IMAGE_STORAGE: ${IMAGE_STORAGE:-local}
+      WEBDAV_URL: ${WEBDAV_URL:-}
+      WEBDAV_USER: ${WEBDAV_USER:-}
+      WEBDAV_PASSWORD: ${WEBDAV_PASSWORD:-}
+      SECRET: ${SECRET:-}
+      FONT_CSS_URL: ${FONT_CSS_URL:-https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/lxgwwenkaigbscreen.css}
+    volumes:
+      # 数据库、密钥
+      - ${DATA_HOST_DIR:-./data}:/data
+      # 本地模式下图片的存放目录，可以改成宿主机上任意位置
+      - ${IMAGES_HOST_DIR:-./data/images}:/data/images
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

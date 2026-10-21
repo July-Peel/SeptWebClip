@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#a9804f">
+<title>SeptWebClip · 共享便签墙</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=__V__">
+<!--FONT-->
+<link rel="stylesheet" href="/css/app.css?v=__V__">
+<script src="/js/app.js?v=__V__" defer></script>
+</head>
+<body>
+<div class="desk">
+  <main class="notebook">
+    <div class="page">
+      <header class="page-head">
+        <div class="brand">
+          <h1>SeptWebClip</h1>
+          <svg class="scribble" viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M3 7 C 60 3, 120 9, 180 6 S 260 4, 296 7" />
+            <path d="M10 11 C 80 8, 150 12, 220 9 S 280 9, 290 10" />
+          </svg>
+        </div>
+        <div class="room-bar" id="roomBar" hidden>
+          <span class="stamp green" id="liveStamp">在线</span>
+          <span class="room-code">墙口令
+            <b id="roomCode">••••</b>
+            <button type="button" class="link" id="revealBtn" aria-label="显示口令">显示</button>
+          </span>
+          <span class="online" id="onlineCount"></span>
+          <button type="button" class="btn" id="leaveBtn">换一面墙</button>
+        </div>
+      </header>
+
+      <section class="gate" id="gate" hidden>
+        <article class="clip paper-butter gate-note">
+          <span class="tape" aria-hidden="true"></span>
+          <div class="paper">
+            <div class="face">
+              <div class="head"><span class="no">NO. 00</span><span class="stamp blue">请出示口令</span></div>
+              <svg class="underline" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M2 6 C 70 3, 140 8, 200 5 S 270 4, 298 6" />
+              </svg>
+              <h2>输入口令，进入你的便签墙</h2>
+              <form id="gateForm" autocomplete="off">
+                <input id="codeInput" name="code" type="text" inputmode="text" autocapitalize="off"
+                       spellcheck="false" placeholder="例如：family-0921" aria-label="口令">
+                <button type="submit" class="btn primary">进入 ↗</button>
+              </form>
+              <p class="gate-error" id="gateError" role="alert"></p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="board" id="board" hidden>
+        <div class="wall" id="wall">
+          <article class="clip composer paper-cream" id="composer">
+            <span class="tape" aria-hidden="true"></span>
+            <div class="paper">
+              <div class="face">
+                <div class="head"><span class="no">NEW</span><span class="kind">写一张新便签</span><span class="stamp blue">草稿</span></div>
+                <svg class="underline" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M2 5 C 60 8, 130 3, 190 6 S 260 7, 298 5" />
+                </svg>
+                <textarea id="composerText" rows="4" aria-label="便签内容"
+                          placeholder="写点什么，或直接粘贴文字 / 截图…"></textarea>
+                <div class="drafts" id="drafts"></div>
+                <div class="actions">
+                  <button type="button" class="btn" id="pickBtn">＋ 图片</button>
+                  <button type="button" class="btn" id="pickFileBtn">＋ 文件</button>
+                  <label class="check"><input type="checkbox" id="pinDraft"> 钉住</label>
+                  <button type="button" class="btn primary" id="sendBtn">贴上墙 ↗</button>
+                </div>
+                <p class="hint" id="composerHint"></p>
+                <input type="file" id="fileInput" accept="image/*" multiple hidden>
+                <input type="file" id="anyFileInput" multiple hidden>
+              </div>
+            </div>
+          </article>
+        </div>
+        <p class="empty" id="empty" hidden>墙上还空着。按 Ctrl+V 或在上面的便签里长按粘贴，贴第一张吧。</p>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="lightbox" id="lightbox" hidden><img id="lightboxImg" alt="原图"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
